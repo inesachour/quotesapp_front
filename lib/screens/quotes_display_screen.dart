@@ -4,7 +4,10 @@ import 'package:quotesapp/models/quote.dart';
 import 'package:quotesapp/services/backend_manager.dart';
 
 class QuotesDisplay extends StatefulWidget {
-  const QuotesDisplay({Key? key}) : super(key: key);
+
+  final String name;
+
+  const QuotesDisplay({required this.name});
 
   @override
   _QuotesDisplayState createState() => _QuotesDisplayState();
@@ -17,7 +20,7 @@ class _QuotesDisplayState extends State<QuotesDisplay> {
   @override
   void initState(){
     var backendManager = BackendManager();
-    _quotesModel = backendManager.getQuotes();
+    _quotesModel = backendManager.getQuotes(widget.name);
     super.initState();
   }
 
@@ -27,8 +30,11 @@ class _QuotesDisplayState extends State<QuotesDisplay> {
     return Scaffold(
       appBar: AppBar(
         elevation: 3,
-        leading: Icon(Icons.arrow_back,color: Colors.black,),
-        title: Text("Quotes", style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold, fontSize: 24),),
+        leading: InkWell(
+          child: Icon(Icons.arrow_back,color: Colors.black,),
+          onTap: (){Navigator.of(context).pop();},
+        ),
+        title: Text("Quotes of "+ widget.name, style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold, fontSize: 24),),
         centerTitle: true,
         backgroundColor: Colors.white,
         shape: RoundedRectangleBorder(
@@ -58,7 +64,7 @@ class _QuotesDisplayState extends State<QuotesDisplay> {
                         itemCount: snapshot.data!.quotes.length,
                         itemBuilder: ( BuildContext context,int index){
                           var quote = snapshot.data!.quotes[index];
-                          return QuoteCard(quote: quote.quote, person: quote.person, colors: [Colors.green,Colors.greenAccent]);
+                          return QuoteCard(quote: quote.quote, person: quote.person, colors: [Colors.green,Colors.greenAccent],id: quote.id);
                         }
                     );
                   }

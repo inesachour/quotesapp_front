@@ -31,23 +31,28 @@ class Quote {
     required this.id,
     required this.quote,
     required this.person,
+    required this.category,
   });
 
   String id;
   String quote;
   String person;
+  String category;
 
 
   factory Quote.fromJson(Map<String, dynamic> json) => Quote(
-    id: json["id"],
+    id: json["id"] ?? json["_id"],
     quote: json["quote"],
     person: json["person"],
+    category: json["category"],
   );
+
 
   Map<String, dynamic> toJson() => {
     "id": id,
     "quote": quote,
     "person": person,
+    "category": category,
   };
 }
 

@@ -1,14 +1,30 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:quotesapp/models/quote.dart';
+import 'package:quotesapp/services/backend_manager.dart';
 
 class QuoteDetail extends StatefulWidget {
-  const QuoteDetail({Key? key}) : super(key: key);
+
+  final String id;
+  const QuoteDetail({required this.id});
 
   @override
   _QuoteDetailState createState() => _QuoteDetailState();
 }
 
 class _QuoteDetailState extends State<QuoteDetail> {
+
+
+  late Future<Quote> _quote;
+
+  @override
+  void initState() {
+    var backendManager = BackendManager();
+    _quote = backendManager.getQuotesById(widget.id);
+    super.initState();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -25,7 +41,10 @@ class _QuoteDetailState extends State<QuoteDetail> {
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.transparent,
-          leading: Icon(Icons.arrow_back,size: 28),
+          leading: InkWell(
+            child: Icon(Icons.arrow_back,size: 28),
+            onTap: (){Navigator.of(context).pop();},
+          ),
           actions: [
              Padding(
                padding: const EdgeInsets.only(right : 20),
@@ -44,24 +63,34 @@ class _QuoteDetailState extends State<QuoteDetail> {
                 Padding(
                   padding: const EdgeInsets.all(8),
                   child: SizedBox(
-                      height: 400,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "' "+"Each day do your best and go to the rest"+ " '",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 38, color: Colors.white),
-                          ),
-                          SizedBox(height: 30,),
-                          Text(
-                            "- "+"Dra chkoun"+ " -",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 20, color: Colors.white),
+                      width: 400,
+                      child: FutureBuilder<Quote>(
+                        future: _quote,
+                        builder: (context,snapshot){
+                          if(snapshot.hasData){
+                            return Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "' "+ snapshot.data!.quote + " '",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(fontSize: 38, color: Colors.white),
+                                ),
+                                SizedBox(height: 30,),
+                                Text(
+                                  "- "+snapshot.data!.category+ " -",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(fontSize: 20, color: Colors.white),
 
-                          ),
-                        ],
+                                ),
+                              ],
 
+                            );
+                          }
+                          else{
+                            return Center(child: CircularProgressIndicator());
+                          }
+                        },
                       )
                   ),
                 ),

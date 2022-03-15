@@ -8,7 +8,7 @@ class SearchScreen extends StatelessWidget {
   Widget build(BuildContext context) {
 
     List<Widget> categories = [
-      CategoryCard(title: "Friendship",icon : Icons.people, colors: [Colors.blue,Colors.indigoAccent],),
+      CategoryCard(title: "Friends",icon : Icons.people, colors: [Colors.blue,Colors.indigoAccent],),
       CategoryCard(title: "Love",icon : Icons.backpack, colors: [Colors.red,Colors.orange],),
       CategoryCard(title: "Family",icon : Icons.add_a_photo, colors: [Colors.green,Colors.greenAccent],),
     ];
@@ -45,8 +45,7 @@ class SearchScreen extends StatelessWidget {
               ),
             ),
 
-            Text("Big category"),
-
+            SizedBox(height: 20),
             Expanded(
               child: GridView.builder(
                 itemCount: categories.length,
