@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:quotesapp/custom_widgets/quote_card.dart';
+import 'package:quotesapp/models/quote.dart';
+import 'package:quotesapp/services/backend_manager.dart';
 
 class QuotesDisplay extends StatefulWidget {
   const QuotesDisplay({Key? key}) : super(key: key);
@@ -10,21 +12,18 @@ class QuotesDisplay extends StatefulWidget {
 
 class _QuotesDisplayState extends State<QuotesDisplay> {
 
-  List quotes = [
-    QuoteCard(quote: "idk please be whatever fgkdfgjlkdfgml kelgjdsljg erkljgqdlgjdj lkjglgjdl", person: "me not him",colors : [Colors.blue,Colors.indigoAccent]),
-    QuoteCard(quote: "idk please be whatever", person: "me not him", colors: [Colors.green,Colors.greenAccent],),
-    QuoteCard(quote: "idk please be whatever", person: "me not him", colors: [Colors.green,Colors.greenAccent],),
-    QuoteCard(quote: "idk please be whatever", person: "me not him", colors: [Colors.green,Colors.greenAccent],),
-    QuoteCard(quote: "idk please be whatever", person: "me not him", colors: [Colors.green,Colors.greenAccent],),
-    QuoteCard(quote: "idk please be whatever", person: "me not him", colors: [Colors.green,Colors.greenAccent],),
-    QuoteCard(quote: "idk please be whatever", person: "me not him", colors: [Colors.green,Colors.greenAccent],),
-    QuoteCard(quote: "idk please be whatever", person: "me not him", colors: [Colors.green,Colors.greenAccent],),
-    QuoteCard(quote: "idk please be whatever", person: "me not him", colors: [Colors.green,Colors.greenAccent],),
-    QuoteCard(quote: "idk please be whatever", person: "me not him", colors: [Colors.green,Colors.greenAccent],),
-  ];
+  late Future<QuotesModel> _quotesModel;
+
+  @override
+  void initState(){
+    var backendManager = BackendManager();
+    _quotesModel = backendManager.getQuotes();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         elevation: 3,
@@ -51,12 +50,25 @@ class _QuotesDisplayState extends State<QuotesDisplay> {
         child: Column(
           children: [
             Expanded(
-              child: ListView.builder(
-                  itemCount: quotes.length,
-                  itemBuilder: ( BuildContext context,int index){
-                    return quotes[index];
+              child: FutureBuilder<QuotesModel>(
+                future: _quotesModel,
+                builder: (context,snapshot){
+                  if(snapshot.hasData){
+                    return ListView.builder(
+                        itemCount: snapshot.data!.quotes.length,
+                        itemBuilder: ( BuildContext context,int index){
+                          var quote = snapshot.data!.quotes[index];
+                          return QuoteCard(quote: quote.quote, person: quote.person, colors: [Colors.green,Colors.greenAccent]);
+                        }
+                    );
                   }
-                  ),
+                  else{
+                    return Center(child: CircularProgressIndicator());
+                  }
+
+                },
+
+              ),
             ),
           ],
         ),
