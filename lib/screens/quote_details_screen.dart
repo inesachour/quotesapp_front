@@ -42,6 +42,8 @@ class _QuoteDetailState extends State<QuoteDetail> {
           elevation: 0,
           backgroundColor: Colors.transparent,
           leading: InkWell(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
             child: Icon(Icons.arrow_back,size: 28),
             onTap: (){Navigator.of(context).pop();},
           ),

@@ -31,6 +31,8 @@ class _QuotesDisplayState extends State<QuotesDisplay> {
       appBar: AppBar(
         elevation: 3,
         leading: InkWell(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
           child: Icon(Icons.arrow_back,color: Colors.black,),
           onTap: (){Navigator.of(context).pop();},
         ),
