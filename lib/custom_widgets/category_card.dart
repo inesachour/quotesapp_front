@@ -4,9 +4,9 @@ import 'package:quotesapp/screens/quotes_display_screen.dart';
 class CategoryCard extends StatelessWidget {
 
   final String title;
-  final IconData? icon;
+  final IconData icon;
   final List<Color> colors;
-  CategoryCard({Key? key,this.title ="", this.icon, required this.colors});
+  CategoryCard({Key? key,required this.title, required this.icon, required this.colors});
 
   @override
   Widget build(BuildContext context) {

@@ -1,17 +1,31 @@
-import 'package:flutter/material.dart';
-import 'package:quotesapp/custom_widgets/category_card.dart';
 
-class SearchScreen extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:quotesapp/constants/colors.dart';
+import 'package:quotesapp/custom_widgets/category_card.dart';
+import 'package:quotesapp/models/categories.dart';
+import 'package:quotesapp/services/backend_manager.dart';
+
+class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  State<SearchScreen> createState() => _SearchScreenState();
+}
 
-    List<Widget> categories = [
-      CategoryCard(title: "Friends",icon : Icons.people, colors: [Colors.blue,Colors.indigoAccent],),
-      CategoryCard(title: "Love",icon : Icons.backpack, colors: [Colors.red,Colors.orange],),
-      CategoryCard(title: "Family",icon : Icons.add_a_photo, colors: [Colors.green,Colors.greenAccent],),
-    ];
+class _SearchScreenState extends State<SearchScreen> {
+
+
+  late Future<List<Category>> _allCategories;
+
+  @override
+  void initState() {
+    var backendManager = BackendManager();
+    _allCategories = backendManager.getCategories();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
 
     return Scaffold(
       appBar: AppBar(
@@ -27,41 +41,38 @@ class SearchScreen extends StatelessWidget {
         shadowColor: Colors.black,
       ),
 
-      body: Padding(
-        padding: const EdgeInsets.all(15),
-        child: Column(
-          children: [
-            TextField(
-              decoration: InputDecoration(
-                prefixIcon: Icon(Icons.search),
-                suffixIcon: Icon(Icons.clear),
-                hintText: 'Search...',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(30)),
-                  borderSide: BorderSide(
-                    color: Color(0xffefeef0),
-                  )
-                ),
+      body: FutureBuilder<List<Category>>(
+        future: _allCategories,
+        builder: (context,snapshot){
+          if(snapshot.hasData){
+            return Padding(
+              padding: const EdgeInsets.all(15),
+              child: Column(
+                children: [
+                  SizedBox(height: 20),
+                  Expanded(
+                    child: GridView.builder(
+                      itemCount: snapshot.data!.indexOf(snapshot.data!.last)+1,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10,
+                        childAspectRatio: 1.2,
+                      ),
+                      itemBuilder: (BuildContext context, int index){
+                        var category= snapshot.data!.elementAt(index);
+                        return CategoryCard(title: category.name,icon: Icons.category,colors: categoriesColors[index%categoriesColors.length]);
+                      },
+                    ),
+                  ),
+                ],
               ),
-            ),
-
-            SizedBox(height: 20),
-            Expanded(
-              child: GridView.builder(
-                itemCount: categories.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                    childAspectRatio: 1.2,
-                ),
-                itemBuilder: (BuildContext context, int index){
-                  return categories[index];
-                  },
-              ),
-            ),
-          ],
-        ),
+            );
+          }
+          else{
+            return Center(child: CircularProgressIndicator(),);
+          }
+        },
       )
     );
   }

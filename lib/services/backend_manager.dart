@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:quotesapp/constants/ip.dart';
+import 'package:quotesapp/models/categories.dart';
 import 'package:quotesapp/models/quote.dart';
 
 class BackendManager{
@@ -9,7 +11,7 @@ class BackendManager{
     var quotesModel = QuotesModel(quotes: []);
 
     try{
-      var response = await client.get(Uri.parse('http://192.168.0.103:3000/quote/'+category));
+      var response = await client.get(Uri.parse('http://'+ip+':3000/quote/'+category));
       var jsonString = response.body;
       var jsonMap = json.decode(jsonString);
       quotesModel = QuotesModel.fromJson(jsonMap);
@@ -23,16 +25,26 @@ class BackendManager{
     Quote quote = new Quote(quote: "",person: "",id: "",category: "");
 
     try{
-      var response = await client.get(Uri.parse('http://192.168.0.103:3000/quote/detail/'+id));
+      var response = await client.get(Uri.parse('http://'+ip+':3000/quote/detail/'+id));
       var jsonString = response.body;
       var jsonMap = json.decode(jsonString);
-      print(jsonString);
       quote = Quote.fromJson(jsonMap);
-      print("ok");
-      print(quote);
     }
     catch(Exception){}
     return quote;
   }
 
+  Future<List<Category>> getCategories() async {
+    var client = http.Client();
+    List<Category> categories = [Category(name: "friends")];
+    try{
+      var response = await client.get(Uri.parse('http://'+ip+':3000/quote/categories'));
+      var jsonString = response.body;
+      var jsonMap = json.decode(jsonString);
+      categories = categoryFromJson(jsonMap);
+
+    }
+    catch(Exception){print("error");}
+    return categories;
+  }
 }
