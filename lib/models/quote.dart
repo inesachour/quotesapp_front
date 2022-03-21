@@ -16,7 +16,7 @@ class QuotesModel {
 
   List<Quote> quotes;
 
-  factory QuotesModel.fromJson(List json) => QuotesModel(  //TODO fix temporary
+  factory QuotesModel.fromJson(List json) => QuotesModel(
     quotes: List<Quote>.from(
         json.map((x) => Quote.fromJson(x))),
   );

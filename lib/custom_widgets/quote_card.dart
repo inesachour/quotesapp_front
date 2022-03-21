@@ -7,7 +7,8 @@ class QuoteCard extends StatelessWidget {
   final String quote;
   final String person;
   final List<Color> colors;
-  QuoteCard({required this.quote, required this.person, required this.colors,required this.id});
+  final String image;
+  QuoteCard({required this.quote, required this.person, required this.colors,required this.id,required this.image});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class QuoteCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
       child: InkWell(
         onTap: (){
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) => QuoteDetail(id: id)));
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => QuoteDetail(id: id,image: image,)));
         },
         child: Card(
           elevation: 0,

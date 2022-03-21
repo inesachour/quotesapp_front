@@ -4,15 +4,16 @@ import 'package:quotesapp/screens/quotes_display_screen.dart';
 class CategoryCard extends StatelessWidget {
 
   final String title;
-  final IconData icon;
+  final String icon;
   final List<Color> colors;
-  CategoryCard({Key? key,required this.title, required this.icon, required this.colors});
+  final String image;
+  CategoryCard({Key? key,required this.title, required this.icon, required this.colors, required this.image});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: (){
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => QuotesDisplay(name: title.toLowerCase())));
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => QuotesDisplay(name: title.toLowerCase(),image: image,icon: icon)));
         },
       child: Card(
         child: Container(
@@ -28,7 +29,8 @@ class CategoryCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Icon(icon, color: Colors.white, size: 30,) ,
+              //Icon(Icons.image, color: Colors.white, size: 30,) , //TODO make icon
+              Icon(IconData(int.parse(icon),fontFamily: 'MaterialIcons'),color: Colors.white,),
               SizedBox(height: 15,),
               Text(title, style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),),
             ],

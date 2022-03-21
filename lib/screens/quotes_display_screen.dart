@@ -6,8 +6,10 @@ import 'package:quotesapp/services/backend_manager.dart';
 class QuotesDisplay extends StatefulWidget {
 
   final String name;
+  final String icon;
+  final String image;
 
-  const QuotesDisplay({required this.name});
+  const QuotesDisplay({required this.name,required this.image,required this.icon});
 
   @override
   _QuotesDisplayState createState() => _QuotesDisplayState();
@@ -66,7 +68,7 @@ class _QuotesDisplayState extends State<QuotesDisplay> {
                         itemCount: snapshot.data!.quotes.length,
                         itemBuilder: ( BuildContext context,int index){
                           var quote = snapshot.data!.quotes[index];
-                          return QuoteCard(quote: quote.quote, person: quote.person, colors: [Colors.green,Colors.greenAccent],id: quote.id);
+                          return QuoteCard(quote: quote.quote, person: quote.person, colors: [Colors.green,Colors.greenAccent],id: quote.id,image: widget.image,);
                         }
                     );
                   }

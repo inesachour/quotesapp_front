@@ -6,7 +6,9 @@ import 'package:quotesapp/services/backend_manager.dart';
 class QuoteDetail extends StatefulWidget {
 
   final String id;
-  const QuoteDetail({required this.id});
+  final String image;
+
+  const QuoteDetail({required this.id,required this.image});
 
   @override
   _QuoteDetailState createState() => _QuoteDetailState();
@@ -28,11 +30,11 @@ class _QuoteDetailState extends State<QuoteDetail> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
           image: DecorationImage(
             fit: BoxFit.cover,
             image: NetworkImage(
-              'https://www.kindacode.com/wp-content/uploads/2021/01/blue.jpg',
+              widget.image ,
             ),
           ),
       ),

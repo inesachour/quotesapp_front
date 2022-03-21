@@ -36,7 +36,7 @@ class BackendManager{
 
   Future<List<Category>> getCategories() async {
     var client = http.Client();
-    List<Category> categories = [Category(name: "friends")];
+    List<Category> categories = [Category(name: "Friends",image: "",icon: "")];
     try{
       var response = await client.get(Uri.parse('http://'+ip+':3000/quote/categories'));
       var jsonString = response.body;
@@ -44,7 +44,7 @@ class BackendManager{
       categories = categoryFromJson(jsonMap);
 
     }
-    catch(Exception){print("error");}
+    catch(Exception){print(Exception.toString());}
     return categories;
   }
 }

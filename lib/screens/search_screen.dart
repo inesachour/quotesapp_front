@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:quotesapp/constants/colors.dart';
 import 'package:quotesapp/custom_widgets/category_card.dart';
@@ -61,7 +60,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       ),
                       itemBuilder: (BuildContext context, int index){
                         var category= snapshot.data!.elementAt(index);
-                        return CategoryCard(title: category.name,icon: Icons.category,colors: categoriesColors[index%categoriesColors.length]);
+                        return CategoryCard(title: category.name,icon: category.icon,colors: categoriesColors[index%categoriesColors.length],image: category.image,);
                       },
                     ),
                   ),
