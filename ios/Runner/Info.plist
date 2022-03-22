@@ -13,7 +13,11 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
+<<<<<<< HEAD
 	<string>Quoty</string>
+=======
+	<string>quotesapp</string>
+>>>>>>> 2f5164caf75d1ea06f15a11401e1397537cf1cd6
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
