@@ -39,6 +39,7 @@ dependencies:
 
 
 dev_dependencies:
+  flutter_launcher_icons: "^0.9.2"
   flutter_test:
     sdk: flutter
 
@@ -54,7 +55,6 @@ flutter_icons:
   ios: true
   image_path: "lib/assets/icon/icon.png"
 
-
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -64,7 +64,6 @@ flutter:
     - family: Satisfy
       fonts:
         - asset: lib/assets/fonts/Satisfy-Regular.ttf
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

@@ -1,15 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.quotesapp">
    <application
-<<<<<<< HEAD
         android:label="Quoty"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
-=======
-        android:label="quotesapp"
-        android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
->>>>>>> 2f5164caf75d1ea06f15a11401e1397537cf1cd6
         <activity
             android:name=".MainActivity"
             android:exported="true"

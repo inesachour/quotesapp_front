@@ -108,6 +108,12 @@ class _QuoteDetailState extends State<QuoteDetail> {
           child: BottomNavigationBar(
             elevation: 0,
             backgroundColor: Colors.grey.withOpacity(0.3),
+            selectedLabelStyle: TextStyle(
+              color: Colors.white
+            ),
+            unselectedLabelStyle: TextStyle(
+              color: Colors.white,
+            ),
             items: [
               BottomNavigationBarItem(
                   icon: IconButton(
