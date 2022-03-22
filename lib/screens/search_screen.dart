@@ -13,13 +13,17 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
 
-
+  final _searchController = TextEditingController();
   late Future<List<Category>> _allCategories;
+
+  void getCategories(String search){
+    var backendManager = BackendManager();
+    _allCategories = backendManager.getCategories(search);
+  }
 
   @override
   void initState() {
-    var backendManager = BackendManager();
-    _allCategories = backendManager.getCategories();
+    getCategories("");
     super.initState();
   }
 
@@ -48,9 +52,41 @@ class _SearchScreenState extends State<SearchScreen> {
               padding: const EdgeInsets.all(15),
               child: Column(
                 children: [
+                  TextField(
+                    controller: _searchController,
+                    decoration: InputDecoration(
+                      suffixIcon: IconButton(
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          icon: Icon(Icons.cancel, color: Colors.grey,),
+                          onPressed: (){
+                            _searchController.clear();
+                            setState(() {
+                              getCategories("");
+                            });
+                          }
+                      ),
+                      prefixIcon: Icon(Icons.search,color: Colors.grey,),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey),
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey),
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                      ),
+                    ),
+                    onChanged: (text){
+                      setState(() {
+                        getCategories(text);
+                      });
+                    },
+                  ),
+
                   SizedBox(height: 20),
+
                   Expanded(
-                    child: GridView.builder(
+                    child: snapshot.data!.length <1 ? Text("Nothing found"): GridView.builder(
                       itemCount: snapshot.data!.indexOf(snapshot.data!.last)+1,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
@@ -61,7 +97,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       itemBuilder: (BuildContext context, int index){
                         var category= snapshot.data!.elementAt(index);
                         return CategoryCard(title: category.name,icon: category.icon,colors: categoriesColors[index%categoriesColors.length],image: category.image,);
-                      },
+                        },
                     ),
                   ),
                 ],
@@ -71,8 +107,8 @@ class _SearchScreenState extends State<SearchScreen> {
           else{
             return Center(child: CircularProgressIndicator(),);
           }
-        },
-      )
+          },
+      ),
     );
   }
 }

@@ -17,12 +17,17 @@ class QuotesDisplay extends StatefulWidget {
 
 class _QuotesDisplayState extends State<QuotesDisplay> {
 
+  final _searchController = TextEditingController();
   late Future<QuotesModel> _quotesModel;
+
+  void getQuotes(String search){
+    var backendManager = BackendManager();
+    _quotesModel = backendManager.getQuotes(widget.name,search);
+  }
 
   @override
   void initState(){
-    var backendManager = BackendManager();
-    _quotesModel = backendManager.getQuotes(widget.name);
+    getQuotes("");
     super.initState();
   }
 
@@ -47,24 +52,52 @@ class _QuotesDisplayState extends State<QuotesDisplay> {
           ),
         ),
         shadowColor: Colors.black,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 12),
-            child: Icon(Icons.search, color: Colors.black,),
-          ),
-        ],
       ),
 
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical:25 ,horizontal:20 ),
         child: Column(
           children: [
+            TextField(
+              controller: _searchController,
+              decoration: InputDecoration(
+                suffixIcon: IconButton(
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    icon: Icon(Icons.cancel, color: Colors.grey,),
+                    onPressed: (){
+                      _searchController.clear();
+                      setState(() {
+                        getQuotes("");
+                      });
+                    }
+                ),
+                prefixIcon: Icon(Icons.search,color: Colors.grey,),
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey),
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey),
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                ),
+              ),
+              onChanged: (text){
+                print(text);
+                setState(() {
+                  getQuotes(text);
+                });
+              },
+            ),
+
+            SizedBox(height: 10,),
+
             Expanded(
               child: FutureBuilder<QuotesModel>(
                 future: _quotesModel,
                 builder: (context,snapshot){
                   if(snapshot.hasData){
-                    return ListView.builder(
+                    return snapshot.data!.quotes.length < 1 ? Text("Nothing found"): ListView.builder(
                         itemCount: snapshot.data!.quotes.length,
                         itemBuilder: ( BuildContext context,int index){
                           var quote = snapshot.data!.quotes[index];

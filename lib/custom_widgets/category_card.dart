@@ -29,7 +29,6 @@ class CategoryCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              //Icon(Icons.image, color: Colors.white, size: 30,) , //TODO make icon
               Icon(IconData(int.parse(icon),fontFamily: 'MaterialIcons'),color: Colors.white,),
               SizedBox(height: 15,),
               Text(title, style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),),

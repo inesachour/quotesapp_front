@@ -6,12 +6,16 @@ import 'package:quotesapp/models/quote.dart';
 
 class BackendManager{
 
-  Future<QuotesModel> getQuotes(String category) async {
+  Future<QuotesModel> getQuotes(String category, String search) async {
     var client = http.Client();
     var quotesModel = QuotesModel(quotes: []);
 
     try{
-      var response = await client.get(Uri.parse('http://'+ip+':3000/quote/'+category));
+      String url = 'http://'+ip+':3000/quote/'+category;
+      if(search.isNotEmpty){
+        url += '/'+search;
+      }
+      var response = await client.get(Uri.parse(url));
       var jsonString = response.body;
       var jsonMap = json.decode(jsonString);
       quotesModel = QuotesModel.fromJson(jsonMap);
@@ -34,11 +38,15 @@ class BackendManager{
     return quote;
   }
 
-  Future<List<Category>> getCategories() async {
+  Future<List<Category>> getCategories(String search) async {
     var client = http.Client();
-    List<Category> categories = [Category(name: "Friends",image: "",icon: "")];
+    List<Category> categories = [];
     try{
-      var response = await client.get(Uri.parse('http://'+ip+':3000/quote/categories'));
+      String url = 'http://'+ip+':3000/quote/categories';
+      if(search.isNotEmpty){
+        url += '/'+search;
+      }
+      var response = await client.get(Uri.parse(url));
       var jsonString = response.body;
       var jsonMap = json.decode(jsonString);
       categories = categoryFromJson(jsonMap);
