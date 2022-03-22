@@ -1,5 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:quotesapp/models/quote.dart';
 import 'package:quotesapp/services/backend_manager.dart';
 
@@ -16,8 +16,13 @@ class QuoteDetail extends StatefulWidget {
 
 class _QuoteDetailState extends State<QuoteDetail> {
 
-
+  String? _quotetxt;
   late Future<Quote> _quote;
+
+  var snackBar = SnackBar(
+    content: Text('Quote copied successfully', textAlign: TextAlign.center,),
+    backgroundColor: Colors.grey.withOpacity(0.7),
+  );
 
   @override
   void initState() {
@@ -49,22 +54,12 @@ class _QuoteDetailState extends State<QuoteDetail> {
             child: Icon(Icons.arrow_back,size: 28),
             onTap: (){Navigator.of(context).pop();},
           ),
-          actions: [
-             Padding(
-               padding: const EdgeInsets.only(right : 20),
-               child: Icon(Icons.view_list_sharp, size: 28,),
-             ),
-          ],
         ),
 
         body: Padding(
           padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 20),
           child: Container(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Padding(
+            child: Padding(
                   padding: const EdgeInsets.all(8),
                   child: SizedBox(
                       width: 400,
@@ -72,6 +67,7 @@ class _QuoteDetailState extends State<QuoteDetail> {
                         future: _quote,
                         builder: (context,snapshot){
                           if(snapshot.hasData){
+                            _quotetxt = snapshot.data!.quote;
                             return Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -98,34 +94,48 @@ class _QuoteDetailState extends State<QuoteDetail> {
                       )
                   ),
                 ),
-                Column(
-                  children: [
-                    Icon(Icons.thumb_up_alt,size: 30,color :Colors.white),
-                    SizedBox(height: 20,),
-                    Icon(Icons.thumb_down_alt,size: 30,color :Colors.white),
-                  ],
-                )
-              ],
-            ),
           ),
         ),
 
-        bottomNavigationBar: BottomNavigationBar(
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          items: [
-            BottomNavigationBarItem(icon: Padding(
-              padding: const EdgeInsets.only(right: 70),
-              child: Icon(Icons.star, color :Colors.white),
-            ), label: ""),
-            BottomNavigationBarItem(icon: Icon(Icons.queue_sharp, color :Colors.white), label: ""),
-            BottomNavigationBarItem(icon: Padding(
-              padding: const EdgeInsets.only(left : 70),
-              child: Icon(Icons.share, color: Colors.white,),
-            ), label: ""),
-          ],
-          iconSize: 30,
+        bottomNavigationBar: Theme(
+          data: ThemeData(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+          ),
+          child: BottomNavigationBar(
+            elevation: 0,
+            backgroundColor: Colors.grey.withOpacity(0.3),
+            items: [
+              BottomNavigationBarItem(
+                  icon: Padding(
+                    padding: const EdgeInsets.only(right: 70),
+                    child: Icon(Icons.star, color :Colors.white),
+                  ),
+                  label: ""),
+              BottomNavigationBarItem(
+                  icon: IconButton(
+                    icon: Icon(Icons.copy_rounded, color :Colors.white),
+                    onPressed: (){
+                      if(_quotetxt != null){
+                        Clipboard.setData(ClipboardData(text: _quotetxt))
+                            .then((value) {ScaffoldMessenger.of(context).showSnackBar(snackBar);});
+                        }
+                      }
+                  ),
+                  label: ""
+              ),
+              BottomNavigationBarItem(
+                  icon: Padding(
+                    padding: const EdgeInsets.only(left : 70),
+                    child: Icon(Icons.share, color: Colors.white,),
+              ),
+                  label: "",
 
+              ),
+            ],
+            iconSize: 30,
+
+          ),
         ),
 
 

@@ -13,7 +13,7 @@ class CategoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: (){
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => QuotesDisplay(name: title.toLowerCase(),image: image,icon: icon)));
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => QuotesDisplay(name: title.toLowerCase(),image: image,icon: icon, colors: colors)));
         },
       child: Card(
         child: Container(

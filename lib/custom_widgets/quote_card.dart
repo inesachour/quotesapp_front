@@ -8,7 +8,7 @@ class QuoteCard extends StatelessWidget {
   final String person;
   final List<Color> colors;
   final String image;
-  QuoteCard({required this.quote, required this.person, required this.colors,required this.id,required this.image});
+  QuoteCard({required this.quote, required this.person, required this.colors,required this.id,required this.image,});
 
   @override
   Widget build(BuildContext context) {

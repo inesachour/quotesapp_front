@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:quotesapp/screens/quote_details_screen.dart';
-import 'package:quotesapp/screens/quotes_display_screen.dart';
 import 'package:quotesapp/screens/search_screen.dart';
 
 void main() {

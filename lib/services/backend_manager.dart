@@ -29,6 +29,7 @@ class BackendManager{
     Quote quote = new Quote(quote: "",person: "",id: "",category: "");
 
     try{
+      print(id);
       var response = await client.get(Uri.parse('http://'+ip+':3000/quote/detail/'+id));
       var jsonString = response.body;
       var jsonMap = json.decode(jsonString);
