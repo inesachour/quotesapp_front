@@ -35,19 +35,10 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   http: ^0.13.4
-<<<<<<< HEAD
   share_plus: ^4.0.2
 
 
 dev_dependencies:
-  flutter_launcher_icons: "^0.9.2"
-=======
-  flutter_local_notifications: ^9.4.0
-  timezone: ^0.8.0
-
-
-dev_dependencies:
->>>>>>> 2f5164caf75d1ea06f15a11401e1397537cf1cd6
   flutter_test:
     sdk: flutter
 
@@ -58,27 +49,22 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^1.0.0
 
-<<<<<<< HEAD
 flutter_icons:
   android: "launcher_icon"
   ios: true
   image_path: "lib/assets/icon/icon.png"
 
-=======
->>>>>>> 2f5164caf75d1ea06f15a11401e1397537cf1cd6
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter.
 flutter:
-<<<<<<< HEAD
   fonts:
     - family: Satisfy
       fonts:
         - asset: lib/assets/fonts/Satisfy-Regular.ttf
-=======
 
->>>>>>> 2f5164caf75d1ea06f15a11401e1397537cf1cd6
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
